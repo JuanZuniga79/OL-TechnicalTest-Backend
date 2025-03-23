@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { FilenameModule } from './public/infraestructure/adapters/input/filename/filename.module';
 import {AuthModule} from "./infraestructure/modules/auth.module";
 import {ConfigModule} from "@nestjs/config";
+import {MunicipalityModule} from "@/infraestructure/modules/municipality.module";
 
 @Module({
-  imports: [FilenameModule, AuthModule, ConfigModule.forRoot({
+  imports: [AuthModule, ConfigModule.forRoot({
     isGlobal: true,
     envFilePath: '.env'
-  })],
+  }), MunicipalityModule],
   controllers: [AppController],
   providers: [AppService],
 })

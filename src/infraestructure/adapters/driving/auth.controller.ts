@@ -22,7 +22,7 @@ export class AuthController {
         }catch (error){
             r.status(HttpStatus.BAD_REQUEST).json({
                 message: error.message,
-                data: error,
+                data: null,
             } as IResponse<null>)
         }
     }
