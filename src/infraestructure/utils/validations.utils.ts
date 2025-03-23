@@ -3,6 +3,5 @@ export class Validations{
     static validateEmail(email: string){
         if(email.length < 10) return false;
         return this.emailRegex.test(email);
-
     }
 }

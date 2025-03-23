@@ -2,20 +2,13 @@ import IMunicipalityRepository from "@/infraestructure/adapters/driven/interface
 import CountryEntity from "@/infraestructure/entities/country.entity";
 import MunicipalityEntity from "@/infraestructure/entities/municipality.entity";
 import {PrismaClient} from "@prisma/client";
-import {NotFoundException} from "@nestjs/common";
+import {Injectable, NotFoundException} from "@nestjs/common";
+import {PrismaService} from "@/infraestructure/config/prisma/prisma.service";
 
+@Injectable()
 export class MunicipalityRepository implements IMunicipalityRepository {
 
-    private prisma = new PrismaClient();
-    private static instance: IMunicipalityRepository;
-
-    private constructor() {}
-
-    static getInstance(): IMunicipalityRepository {
-        if(!MunicipalityRepository.instance) {
-            MunicipalityRepository.instance = new MunicipalityRepository();
-        }
-        return MunicipalityRepository.instance;
+    constructor(private readonly prisma: PrismaService) {
     }
 
     async findAllCountries(): Promise<CountryEntity[]> {

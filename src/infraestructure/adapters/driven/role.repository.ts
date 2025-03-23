@@ -1,20 +1,12 @@
 import IRoleRepository from "@/infraestructure/adapters/driven/interfaces/IRoleRepository";
 import RoleEntity from "@/infraestructure/entities/role.entity";
-import { PrismaClient } from "@prisma/client";
-import {NotFoundException} from "@nestjs/common";
+import {Injectable, NotFoundException} from "@nestjs/common";
+import {PrismaService} from "@/infraestructure/config/prisma/prisma.service";
 
+@Injectable()
 export class RoleRepository implements IRoleRepository {
 
-    private prisma = new PrismaClient();
-    private static instance: IRoleRepository;
-
-    private constructor() {}
-
-    static getInstance(): IRoleRepository {
-        if (!RoleRepository.instance) {
-            RoleRepository.instance = new RoleRepository();
-        }
-        return RoleRepository.instance;
+    constructor(private readonly prisma: PrismaService) {
     }
 
     async findRoleByName(name: string): Promise<RoleEntity> {

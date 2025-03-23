@@ -65,6 +65,31 @@ model establishments {
   users      users     @relation(fields: [updated_by], references: [id], onUpdate: NoAction)
 }
 
+model MerchantView {
+  id                              BigInt
+  email                           String?
+  phone                           String?
+  registered_at                   DateTime?
+  status_name                     String?
+  subject_name                    String?
+  municipality_name               String?
+  country_name                    String?
+  country_code                    String?
+  user_email                      String?
+  user_role                       String?
+  user_subject_name               String?
+  establishment_id                BigInt?
+  establishment_name              String?
+  income                          Decimal?
+  employees                       Int?
+  updated_at                      DateTime?
+  establishment_user_email        String?
+  establishment_user_subject_name String?
+  establishment_user_role         String?
+
+  @@ignore
+}
+
 model municipalities {
   id         Int         @id @default(autoincrement())
   name       String      @db.VarChar(64)

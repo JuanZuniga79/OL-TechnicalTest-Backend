@@ -1,7 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {SwaggerModule, DocumentBuilder} from "@nestjs/swagger"
-import {HttpException} from "@nestjs/common";
+import {HttpException, ValidationPipe} from "@nestjs/common";
+import {HttpExceptionFilter} from "@/infraestructure/config/error.filter";
+import {ResponseMiddleware} from "@/infraestructure/config/response.middleware";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +18,13 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory);
 
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    forbidUnknownValues: false,
+    transform: true,
+  }));
+
   app.enableCors({
     origin: (origin: string, callback: Function) => {
       if (!origin || /^https?:\/\/localhost(:\d+)?$/.test(origin)) {
@@ -25,6 +34,9 @@ async function bootstrap() {
       }
     },
   })
+
+  app.useGlobalFilters(new HttpExceptionFilter())
+  app.use(new ResponseMiddleware().use)
 
   await app.listen(process.env.PORT ?? 8080);
 }

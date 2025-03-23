@@ -1,12 +1,12 @@
 import {Injectable} from "@nestjs/common";
 import {MunicipalityRepository} from "@/infraestructure/adapters/driven/municipality.repository";
-import IMunicipalityRepository from "@/infraestructure/adapters/driven/interfaces/IMunicipalityRepository";
 import ResponseCountryDto from "@/infraestructure/dto/municipality/response.country.dto";
 
 @Injectable()
 export default class MunicipalitiesService {
 
-    private municipality_repository: IMunicipalityRepository = MunicipalityRepository.getInstance();
+    constructor(private readonly municipality_repository: MunicipalityRepository) {
+    }
 
     async getAll(): Promise<ResponseCountryDto[]>{
         const res: ResponseCountryDto[] = [];

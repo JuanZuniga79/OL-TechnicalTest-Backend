@@ -1,5 +1,5 @@
-import { UnauthorizedException } from "@nestjs/common";
-import { compareSync, genSaltSync, hashSync } from 'bcrypt-ts';
+import {UnauthorizedException} from "@nestjs/common";
+import {compareSync, genSaltSync, hashSync} from 'bcrypt-ts';
 
 export default class EncryptUtils{
     private static saltRounds = genSaltSync(14);
@@ -12,6 +12,10 @@ export default class EncryptUtils{
         const validation = compareSync(pw, encryptedPw);
         if (!validation) throw new UnauthorizedException('Contraseña incorrecta');
         return validation;
+    }
+
+    static validateWithResponse(item: string, encryptedItem: string): boolean {
+        return compareSync(item, encryptedItem)
     }
 
 }
