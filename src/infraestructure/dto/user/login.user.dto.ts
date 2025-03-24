@@ -6,17 +6,14 @@ export default class LoginUserDto {
         description: 'Email format (e.g., gmail.com, hotmail.com, outlook.es, etc.).',
         example: 'user@example.com',
     })
-    @IsEmail({}, { message: 'Invalid email format' })
+    @IsString({message: 'Email must be a string'})
     email: string;
 
     @ApiProperty({
         description: 'User password (8-16 characters).',
-        example: 'StrongPass123',
-        minLength: 8,
-        maxLength: 16,
+        example: 'encrypted password',
     })
     @IsString({ message: 'Password must be a string' })
     @MinLength(8, { message: 'Password must be at least 8 characters' })
-    @MaxLength(16, { message: 'Password must not exceed 16 characters' })
     password: string;
 }
