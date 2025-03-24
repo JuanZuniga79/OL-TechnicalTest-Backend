@@ -1,9 +1,9 @@
 import {Injectable} from "@nestjs/common";
-import IMerchantsRepository from "@/infraestructure/adapters/driven/interfaces/IMerchantsRepository";
-import {PrismaService} from "@/infraestructure/config/prisma/prisma.service";
-import {FullResponseMerchantDto} from "@/infraestructure/dto/merchant/response.merchant.dto";
-import ResponsePageableDto from "@/infraestructure/dto/responsePageableDto";
-import CreateMerchantDto from "@/infraestructure/dto/merchant/create.merchant.dto";
+import IMerchantsRepository from "./interfaces/IMerchantsRepository";
+import {PrismaService} from "../../config/prisma/prisma.service";
+import {FullResponseMerchantDto} from "../../dto/merchant/response.merchant.dto";
+import ResponsePageableDto from "../../dto/responsePageableDto";
+import CreateMerchantDto from "../../dto/merchant/create.merchant.dto";
 import {Prisma} from "@prisma/client";
 
 @Injectable()

@@ -1,5 +1,5 @@
 import {ApiProperty} from "@nestjs/swagger";
-import ResponseMunicipalityDto from "@/infraestructure/dto/municipality/response.municipality.dto";
+import ResponseMunicipalityDto from "./response.municipality.dto";
 
 export default class ResponseCountryDto{
     @ApiProperty({

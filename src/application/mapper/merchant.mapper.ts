@@ -1,4 +1,4 @@
-import ResponseMerchantDto, {FullResponseMerchantDto} from "@/infraestructure/dto/merchant/response.merchant.dto";
+import ResponseMerchantDto, {FullResponseMerchantDto} from "../../infraestructure/dto/merchant/response.merchant.dto";
 
 export default class MerchantMapper {
     static async FullMerchantToResponse(items: FullResponseMerchantDto[]): Promise<ResponseMerchantDto[]>{

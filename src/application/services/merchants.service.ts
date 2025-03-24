@@ -1,9 +1,9 @@
 import {BadRequestException, Injectable} from "@nestjs/common";
-import MerchantRepository from "@/infraestructure/adapters/driven/merchant.repository";
-import MerchantMapper from "@/application/mapper/merchant.mapper";
-import CreateMerchantDto from "@/infraestructure/dto/merchant/create.merchant.dto";
-import {Validations} from "@/infraestructure/utils/validations.utils";
-import ResponseCsvDto from "@/infraestructure/dto/merchant/response.csv.dto";
+import MerchantRepository from "../../infraestructure/adapters/driven/merchant.repository";
+import MerchantMapper from "../mapper/merchant.mapper";
+import CreateMerchantDto from "../../infraestructure/dto/merchant/create.merchant.dto";
+import {Validations} from "../../infraestructure/utils/validations.utils";
+import ResponseCsvDto from "../../infraestructure/dto/merchant/response.csv.dto";
 
 @Injectable()
 export class MerchantsService {

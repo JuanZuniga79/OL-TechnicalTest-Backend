@@ -1,4 +1,4 @@
-import EstablishmentEntity from "@/infraestructure/entities/establishment.entity";
+import EstablishmentEntity from "./establishment.entity";
 
 export default interface MerchantEntity {
     id: BigInt;

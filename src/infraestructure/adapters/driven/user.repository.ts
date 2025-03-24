@@ -3,7 +3,7 @@ import {Validations} from "../../utils/validations.utils";
 import {BadRequestException, Injectable, NotFoundException, UnauthorizedException} from "@nestjs/common";
 import IUserRepository from "./interfaces/IUserRepository";
 import UserEntity from "../../entities/user.entity";
-import {PrismaService} from "@/infraestructure/config/prisma/prisma.service";
+import {PrismaService} from "../../config/prisma/prisma.service";
 
 @Injectable()
 export class UserRepository implements IUserRepository{

@@ -1,9 +1,8 @@
-import IMunicipalityRepository from "@/infraestructure/adapters/driven/interfaces/IMunicipalityRepository";
-import CountryEntity from "@/infraestructure/entities/country.entity";
-import MunicipalityEntity from "@/infraestructure/entities/municipality.entity";
-import {PrismaClient} from "@prisma/client";
+import IMunicipalityRepository from "../../../infraestructure/adapters/driven/interfaces/IMunicipalityRepository";
+import CountryEntity from "../../../infraestructure/entities/country.entity";
+import MunicipalityEntity from "../../../infraestructure/entities/municipality.entity";
 import {Injectable, NotFoundException} from "@nestjs/common";
-import {PrismaService} from "@/infraestructure/config/prisma/prisma.service";
+import {PrismaService} from "../../config/prisma/prisma.service";
 
 @Injectable()
 export class MunicipalityRepository implements IMunicipalityRepository {

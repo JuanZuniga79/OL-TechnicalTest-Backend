@@ -1,5 +1,5 @@
 import {ApiProperty} from "@nestjs/swagger";
-import ResponseEstablishmentDto from "@/infraestructure/dto/merchant/response.establishment.dto";
+import ResponseEstablishmentDto from "./response.establishment.dto";
 
 export default class ResponseMerchantDto {
     @ApiProperty({

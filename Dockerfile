@@ -2,6 +2,7 @@ FROM oven/bun:latest
 WORKDIR /usr/src/app
 
 COPY package.json ./
+COPY ./prisma ./
 RUN bun install
 RUN bun run prisma generate
 
