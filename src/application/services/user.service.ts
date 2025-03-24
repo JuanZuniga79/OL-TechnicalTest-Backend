@@ -25,14 +25,14 @@ export default class UserService {
         }
     }
 
-    async validateUser(user: LoginUserDto): Promise<UserResponseDto> {
-        const email = this.decrypt(user.email);
-        const userValidated: UserEntity = await this.user_repository.findUserByEmail(email);
-        if(!userValidated) throw new BadRequestException("Invalid email or password");
-        const password = this.decrypt(user.password);
-        await EncryptUtils.validatePassword(password, userValidated.password);
+    async validateUser(userCredentials: LoginUserDto): Promise<UserResponseDto> {
+        const email = this.decrypt(userCredentials.email);
+        const {user, password} = await this.user_repository.getUserResponseByEmail(email);
+        if(!user) throw new BadRequestException("Invalid email or password");
+        const pass = this.decrypt(userCredentials.password);
+        await EncryptUtils.validatePassword(pass, password);
         const role = await this.role_repository.findRoleByName('administrador');
-        return new UserResponseDto(Number(userValidated.id), role.name, user.email, '');
+        return user;
     }
 
     async getUserById(id: number): Promise<UserEntity> {

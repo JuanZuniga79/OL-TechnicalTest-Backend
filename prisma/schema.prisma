@@ -15,24 +15,19 @@ model countries {
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model subjects {
-  id        BigInt      @id @default(autoincrement())
-  name      String      @db.VarChar(256)
-  type      String      @db.Char(1)
-  merchants merchants[]
-  users     users[]
-}
+model establishments {
+  id         BigInt    @id @default(autoincrement())
+  name       String    @db.VarChar(128)
+  income     Decimal   @db.Decimal(13, 2)
+  employees  Int       @default(0)
+  owner_id   BigInt
+  updated_at DateTime  @default(now()) @db.Timestamp(6)
+  updated_by BigInt
+  merchants  merchants @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users     @relation(fields: [updated_by], references: [id], onUpdate: NoAction)
 
-model users {
-  id             BigInt           @id @default(autoincrement())
-  email          String           @unique @db.VarChar(256)
-  password       String           @db.VarChar(255)
-  subject_id     BigInt
-  role_id        Int
-  establishments establishments[]
-  merchants      merchants[]
-  roles          roles            @relation(fields: [role_id], references: [id], onUpdate: NoAction)
-  subjects       subjects         @relation(fields: [subject_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  @@index([owner_id], map: "idx_establishments_owner_id")
+  @@index([updated_by], map: "idx_establishments_updated_by")
 }
 
 model merchants {
@@ -50,44 +45,12 @@ model merchants {
   statuses        statuses         @relation(fields: [status_id], references: [id], onUpdate: NoAction)
   subjects        subjects         @relation(fields: [subject_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   users           users            @relation(fields: [updater_id], references: [id], onUpdate: NoAction)
-}
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model establishments {
-  id         BigInt    @id @default(autoincrement())
-  name       String    @db.VarChar(128)
-  income     Decimal   @db.Decimal(13, 2)
-  employees  Int       @default(0)
-  owner_id   BigInt
-  updated_at DateTime  @default(now()) @db.Timestamp(6)
-  updated_by BigInt
-  merchants  merchants @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  users      users     @relation(fields: [updated_by], references: [id], onUpdate: NoAction)
-}
-
-model MerchantView {
-  id                              BigInt
-  email                           String?
-  phone                           String?
-  registered_at                   DateTime?
-  status_name                     String?
-  subject_name                    String?
-  municipality_name               String?
-  country_name                    String?
-  country_code                    String?
-  user_email                      String?
-  user_role                       String?
-  user_subject_name               String?
-  establishment_id                BigInt?
-  establishment_name              String?
-  income                          Decimal?
-  employees                       Int?
-  updated_at                      DateTime?
-  establishment_user_email        String?
-  establishment_user_subject_name String?
-  establishment_user_role         String?
-
-  @@ignore
+  @@index([municipality_id], map: "idx_merchants_municipality_id")
+  @@index([registered_at(sort: Desc)], map: "idx_merchants_registered_at")
+  @@index([status_id], map: "idx_merchants_status_id")
+  @@index([subject_id], map: "idx_merchants_subject_id")
+  @@index([updater_id], map: "idx_merchants_updater_id")
 }
 
 model municipalities {
@@ -96,6 +59,8 @@ model municipalities {
   country_id Int
   merchants  merchants[]
   countries  countries   @relation(fields: [country_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([country_id], map: "idx_municipalities_country_id")
 }
 
 model roles {
@@ -109,4 +74,32 @@ model statuses {
   id        Int         @id @default(autoincrement())
   name      String      @unique @db.VarChar(32)
   merchants merchants[]
+
+  @@index([name], map: "idx_statuses_name")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model subjects {
+  id        BigInt      @id @default(autoincrement())
+  name      String      @db.VarChar(256)
+  type      String      @db.Char(1)
+  merchants merchants[]
+  users     users[]
+
+  @@index([name], map: "idx_subjects_name")
+}
+
+model users {
+  id             BigInt           @id @default(autoincrement())
+  email          String           @unique @db.VarChar(256)
+  password       String           @db.VarChar(255)
+  subject_id     BigInt
+  role_id        Int
+  establishments establishments[]
+  merchants      merchants[]
+  roles          roles            @relation(fields: [role_id], references: [id], onUpdate: NoAction)
+  subjects       subjects         @relation(fields: [subject_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([role_id], map: "idx_users_role_id")
+  @@index([subject_id], map: "idx_users_subject_id")
 }

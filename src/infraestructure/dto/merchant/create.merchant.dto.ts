@@ -1,5 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsNumber, IsNotEmpty, Min, IsArray, ValidateNested } from 'class-validator';
+import {
+    IsString,
+    IsOptional,
+    IsNumber,
+    IsNotEmpty,
+    Min,
+    IsArray,
+    ValidateNested,
+    IsDateString,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateEstablishmentDto {
@@ -47,6 +56,19 @@ export default class CreateMerchantDto {
     @IsNumber()
     @IsNotEmpty({ message: "El ID del municipio es obligatorio" })
     municipality_id: number;
+
+    @ApiProperty({
+        example: "2025-03-22T17:54:19.142Z",
+        description: "Fecha de registro del comerciante en formato ISO",
+    })
+    @IsDateString({}, { message: "La fecha de registro debe ser una fecha válida en formato ISO" })
+    @IsNotEmpty({ message: "La fecha de registro es obligatoria" })
+    registered_at: string;
+
+    @ApiProperty({ example: 2, description: "ID del estado del comerciante" })
+    @IsNumber()
+    @IsNotEmpty({ message: "El estado del comerciante es obligatorio" })
+    status_id: number;
 
     @ApiProperty({
         description: "Lista de establecimientos asociados al comerciante",
