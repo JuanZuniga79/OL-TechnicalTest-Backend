@@ -1,5 +1,5 @@
-import CountryEntity from "@/infraestructure/entities/country.entity";
-import MunicipalityEntity from "@/infraestructure/entities/municipality.entity";
+import CountryEntity from "../../../../infraestructure/entities/country.entity";
+import MunicipalityEntity from "../../../../infraestructure/entities/municipality.entity";
 
 export default interface IMunicipalityRepository {
     findAllCountries(): Promise<CountryEntity[]>;

@@ -1,8 +1,6 @@
-import MerchantEntity from "@/infraestructure/entities/merchant.entity";
-import EstablishmentEntity from "@/infraestructure/entities/establishment.entity";
-import {FullResponseMerchantDto} from "@/infraestructure/dto/merchant/response.merchant.dto";
-import ResponsePageableDto from "@/infraestructure/dto/responsePageableDto";
-import CreateMerchantDto from "@/infraestructure/dto/merchant/create.merchant.dto";
+import {FullResponseMerchantDto} from "../../../dto/merchant/response.merchant.dto";
+import ResponsePageableDto from "../../../../infraestructure/dto/responsePageableDto";
+import CreateMerchantDto from "../../../../infraestructure/dto/merchant/create.merchant.dto";
 
 export default interface IMerchantsRepository {
     findMerchantById(merchantId: number): Promise<FullResponseMerchantDto[]>

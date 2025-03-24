@@ -1,9 +1,9 @@
 import {Injectable} from "@nestjs/common";
-import IMerchantsRepository from "@/infraestructure/adapters/driven/interfaces/IMerchantsRepository";
-import {PrismaService} from "@/infraestructure/config/prisma/prisma.service";
-import {FullResponseMerchantDto} from "@/infraestructure/dto/merchant/response.merchant.dto";
-import ResponsePageableDto from "@/infraestructure/dto/responsePageableDto";
-import CreateMerchantDto from "@/infraestructure/dto/merchant/create.merchant.dto";
+import IMerchantsRepository from "./interfaces/IMerchantsRepository";
+import {PrismaService} from "../../config/prisma/prisma.service";
+import {FullResponseMerchantDto} from "../../dto/merchant/response.merchant.dto";
+import ResponsePageableDto from "../../dto/responsePageableDto";
+import CreateMerchantDto from "../../dto/merchant/create.merchant.dto";
 import {Prisma} from "@prisma/client";
 
 @Injectable()
@@ -37,12 +37,13 @@ export default class MerchantRepository implements IMerchantsRepository {
         });
         await this.prisma.merchants.create({
             data: {
-                email: merchant.email,
-                phone: merchant.phone,
+                email: merchant.email !== "" ? merchant.email : null,
+                phone: merchant.phone !== "" ? merchant.phone : null,
                 updater_id: updater,
                 municipality_id: merchant.municipality_id,
-                status_id: 1,
+                status_id: merchant.status_id,
                 subject_id: subject.id,
+                registered_at: new Date(merchant.registered_at),
                 establishments: {
                     create: merchant.establishments.map(establishment => ({
                         name: establishment.name,
@@ -87,9 +88,9 @@ export default class MerchantRepository implements IMerchantsRepository {
         registered_at?: string,
         status?: string
     ): Promise<ResponsePageableDto<FullResponseMerchantDto[]>> {
-        const [data, total] = await this.prisma.$transaction([
-            this.prisma.$queryRaw<FullResponseMerchantDto[]>(
-                Prisma.sql`
+        const data = await this.prisma
+          .$queryRaw<FullResponseMerchantDto[]>(
+              Prisma.sql`
             WITH merchant_list AS (
                 SELECT DISTINCT ON (id) id
                 FROM merchant_view
@@ -104,23 +105,12 @@ export default class MerchantRepository implements IMerchantsRepository {
             FROM merchant_view mv
             JOIN merchant_list ml ON mv.id = ml.id
             ORDER BY mv.id;
-            `
-            ),
-            this.prisma.$queryRaw<{ count: number }[]>(
-                Prisma.sql`
-            SELECT COUNT(*) as count 
-            FROM merchant_view
-            WHERE 
-                (${name ? Prisma.sql`LOWER(merchant_name) LIKE LOWER(${`%${name}%`})` : Prisma.sql`TRUE`})
-                AND (${registered_at ? Prisma.sql`DATE(registered_at) = ${new Date(registered_at)}` : Prisma.sql`TRUE`})
-                AND (${status ? Prisma.sql`status_id = ${parseInt(status)}` : Prisma.sql`TRUE`});
-            `
-            )
-        ]);
+            `);
+        const total = await this.prisma.merchants.count();
 
         return {
             data: data,
-            total: Number(total[0].count)
+            total: Number(total)
         };
     }
 

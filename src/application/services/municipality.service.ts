@@ -1,6 +1,6 @@
 import {Injectable} from "@nestjs/common";
-import {MunicipalityRepository} from "@/infraestructure/adapters/driven/municipality.repository";
-import ResponseCountryDto from "@/infraestructure/dto/municipality/response.country.dto";
+import {MunicipalityRepository} from "../../infraestructure/adapters/driven/municipality.repository";
+import ResponseCountryDto from "../../infraestructure/dto/municipality/response.country.dto";
 
 @Injectable()
 export default class MunicipalitiesService {

@@ -1,5 +1,4 @@
 import {
-    BadRequestException,
     Body,
     Controller, Delete,
     Get,
@@ -12,13 +11,13 @@ import {
     Request, Res,
     UseGuards
 } from "@nestjs/common";
-import {AuthGuard} from "@/infraestructure/guards/auth.guard";
+import {AuthGuard} from "../../guards/auth.guard";
 import {ApiOperation, ApiQuery, ApiSecurity} from "@nestjs/swagger";
-import {MerchantsService} from "@/application/services/merchants.service";
-import {Roles} from "@/infraestructure/config/roles.decorator";
-import {RolesGuard} from "@/infraestructure/guards/role.guard";
-import CreateMerchantDto from "@/infraestructure/dto/merchant/create.merchant.dto";
-import UserService from "@/application/services/user.service";
+import {MerchantsService} from "../../../application/services/merchants.service";
+import {Roles} from "../../config/roles.decorator";
+import {RolesGuard} from "../../guards/role.guard";
+import CreateMerchantDto from "../../dto/merchant/create.merchant.dto";
+import UserService from "../../../application/services/user.service";
 import * as path from "node:path";
 import {Response} from "express";
 import * as fs from "node:fs";

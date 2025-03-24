@@ -1,7 +1,7 @@
-import IRoleRepository from "@/infraestructure/adapters/driven/interfaces/IRoleRepository";
-import RoleEntity from "@/infraestructure/entities/role.entity";
+import IRoleRepository from "../../../infraestructure/adapters/driven/interfaces/IRoleRepository";
+import RoleEntity from "../../../infraestructure/entities/role.entity";
 import {Injectable, NotFoundException} from "@nestjs/common";
-import {PrismaService} from "@/infraestructure/config/prisma/prisma.service";
+import {PrismaService} from "../../config/prisma/prisma.service";
 
 @Injectable()
 export class RoleRepository implements IRoleRepository {
